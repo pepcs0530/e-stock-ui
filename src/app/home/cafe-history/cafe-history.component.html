@@ -1,0 +1,79 @@
+<div class="jumbotron">
+  <form>
+    <p>โปรแกรมบันทึกข้อมูลการขาย</p>
+    <div class="form-group">
+      <label for="currentDate">วันที่</label><br/>
+      <!-- <input type="date" class="form-control" id="currentDate" aria-describedby="date"> -->
+      <p-calendar id="currentDate" [locale]="th" dateFormat="dd/mm/yy"></p-calendar>
+      <small id="date" class="form-text text-muted">ค่าเริ่มต้นเป็นวันที่ปัจจุบัน.</small>
+    </div>
+    <div class="form-group">
+      <label for="menuTypeSelect">รายการเมนู</label>
+      <select class="form-control" id="menuTypeSelect">
+        <option>กาแฟ</option>
+        <option>ชา</option>
+        <option>โซดา</option>
+        <option>Topping</option>
+        <option>ไอติม</option>
+        <option>น้ำแข็งไส</option>
+        <option>อื่นๆ</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="menuSubTypeSelect">ประเภทเมนู</label>
+      <select class="form-control" id="menuSubTypeSelect">
+        <option>ร้อน</option>
+        <option>เย็น</option>
+      </select>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ลำดับ</th>
+          <th scope="col">รูป</th>
+          <th scope="col">เมนู</th>
+          <th scope="col">ราคา</th>
+          <th scope="col">เลือก</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>
+            <img src="assets/images/latte.jpg" width="100px" alt="ลาเต้" class="img-thumbnail">
+          </td>
+          <td>ลาเต้</td>
+          <td>30</td>
+          <td>
+            <button pButton type="button" label="สั่ง" icon="pi pi-shopping-cart" (click)="handleClick($event)"></button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>
+            <img src="assets/images/latte.jpg" width="100px" alt="ลาเต้" class="img-thumbnail">
+          </td>
+          <td>เอสเพรซโซ่</td>
+          <td>30</td>
+          <td>
+            <button pButton type="button" label="สั่ง" icon="pi pi-shopping-cart" (click)="handleClick($event)"></button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>
+            <img src="assets/images/latte.jpg" width="100px" alt="ลาเต้" class="img-thumbnail">
+          </td>
+          <td>มอคค่า</td>
+          <td>30</td>
+          <td>
+            <button pButton type="button" label="สั่ง" icon="pi pi-shopping-cart" (click)="handleClick($event)"></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </form>
+
+</div>
