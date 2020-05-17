@@ -1,0 +1,25 @@
+<p-fieldset legend="โปรแกรมบันทึกข้อมูลการขาย (สรุปบิล)">
+  <p-table [value]="menuSelected">
+    <ng-template pTemplate="header">
+        <tr>
+          <th>ลำดับ</th>
+          <th *ngFor="let col of cols">
+              {{col.header}}
+          </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr>
+          <td>{{rowIndex+1}}</td>
+          <td *ngFor="let col of cols">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<br/>
+<button pButton type="button" label="บันทึก" icon="pi pi-save" (click)="save()"></button>
+
+</p-fieldset>
+<p-toast position="top-center" key="successMsg"></p-toast>

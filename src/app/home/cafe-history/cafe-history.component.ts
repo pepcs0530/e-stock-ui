@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { MenuType } from '@shared/models/menuType';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-cafe-history',
@@ -7,10 +11,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CafeHistoryComponent implements OnInit {
 
+  cafeHistoryForm: FormGroup;
+
   es: any;
   th: any;
 
-  constructor() { }
+  menuTypeList: any[];
+  menuSubTypeList: any[];
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _httpClient: HttpClient
+  ) { }
 
   ngOnInit() {
     this.es = {
@@ -34,6 +46,49 @@ export class CafeHistoryComponent implements OnInit {
       today: 'วันนี้',
       clear: 'ล้างค่า'
     }
+
+    this.cafeHistoryForm = this._formBuilder.group({
+      currentDate: [null],
+      menuType: [null],
+      menuSubType: [null],
+    });
+
+    this.initForm();
+
+  }
+  
+  async initForm() {
+    this.cafeHistoryForm.get('currentDate').setValue(new Date());
+    
+    const menuTypeResponse = await this.getMenuTypeList();
+    console.log('menuTypeResponse => ', menuTypeResponse);
+    this.menuTypeList = [
+      {productTypePk: null, productTypeName: "--- เลือก ---", shopTypePk: null}, 
+      ...menuTypeResponse['results']];
+
+    const menuSubTypeResponse = await this.getMenuSubTypeList();
+    console.log('menuSubTypeResponse => ', menuSubTypeResponse);
+    this.menuSubTypeList = [
+      {productSubTypePk: null, productSubTypeName: "--- เลือก ---"}, 
+      ...menuSubTypeResponse['results']];
+  }
+
+  getMenuTypeList() {
+    return this._httpClient.get<any>(environment.apiUrl + '/productType/getAllProductTypeList')
+      .toPromise()
+      .catch(e => {
+        console.error(e);
+        alert(e.message + environment.apiUrl);
+      });
+  }
+
+  getMenuSubTypeList() {
+    return this._httpClient.get<any>(environment.apiUrl + '/productSubType/getAllProductSubTypeList')
+      .toPromise()
+      .catch(e => {
+        console.error(e);
+        alert(e.message + environment.apiUrl);
+      });
   }
 
   handleClick(event) {

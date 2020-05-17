@@ -1,0 +1,146 @@
+<!-- {{cafeHistoryForm.value | json}} -->
+
+<p-fieldset legend="โปรแกรมบันทึกข้อมูลการขาย">
+  <form [formGroup]="cafeHistoryForm">
+    <!-- <p>โปรแกรมบันทึกข้อมูลการขาย</p> -->
+    <div class="form-group">
+      <label for="currentDate">วันที่</label><br />
+      <!-- <input type="date" class="form-control" id="currentDate" aria-describedby="date"> -->
+      <p-calendar id="currentDate" formControlName="currentDate" [locale]="th" dateFormat="dd/mm/yy"></p-calendar>
+      <small id="date" class="form-text text-muted">ค่าเริ่มต้นเป็นวันที่ปัจจุบัน.</small>
+    </div>
+    <div class="form-group">
+      <label for="menuTypeSelect">รายการเมนู</label><br />
+      <!-- <select class="form-control" id="menuTypeSelect">
+          <option>กาแฟ</option>
+          <option>ชา</option>
+          <option>โซดา</option>
+          <option>Topping</option>
+          <option>ไอติม</option>
+          <option>น้ำแข็งไส</option>
+          <option>อื่นๆ</option>
+        </select> -->
+      <p-dropdown [options]="menuTypeList" formControlName="menuType" filter="true" optionLabel="productTypeName"
+        [style]="{'width':'100%'}" [emptyFilterMessage]="'ไม่พบข้อมูล'" [showClear]="true"
+        (onChange)="menuTypeChange($event)"></p-dropdown>
+    </div>
+    <div class="form-group">
+      <label for="menuSubTypeSelect">ประเภทเมนู</label><br>
+      <!-- <select class="form-control" id="menuSubTypeSelect">
+          <option>ร้อน</option>
+          <option>เย็น</option>
+        </select> -->
+      <p-dropdown [options]="menuSubTypeList" formControlName="menuSubType" optionLabel="productSubTypeName"
+        [style]="{'width':'100%'}" [emptyFilterMessage]="'ไม่พบข้อมูล'" [showClear]="true"
+        (onChange)="menuSubTypeChange($event)"></p-dropdown>
+    </div>
+    <div class="form-group">
+      <label for="menuSubTypeSelect">ชื่อเมนู</label><br>
+      <input type="text" pInputText formControlName="productName">   
+    </div>
+    
+  
+    <!-- <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ลำดับ</th>
+            <th scope="col">รูป</th>
+            <th scope="col">เมนู</th>
+            <th scope="col">ราคา</th>
+            <th scope="col">เลือก</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>
+              <img src="assets/images/latte.jpg" width="100px" alt="ลาเต้" class="img-thumbnail">
+            </td>
+            <td>ลาเต้</td>
+            <td>30</td>
+            <td>
+              <button pButton type="button" label="สั่ง" icon="pi pi-shopping-cart" (click)="handleClick($event)"></button>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>
+              <img src="assets/images/latte.jpg" width="100px" alt="ลาเต้" class="img-thumbnail">
+            </td>
+            <td>เอสเพรซโซ่</td>
+            <td>30</td>
+            <td>
+              <button pButton type="button" label="สั่ง" icon="pi pi-shopping-cart" (click)="handleClick($event)"></button>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>
+              <img src="assets/images/latte.jpg" width="100px" alt="ลาเต้" class="img-thumbnail">
+            </td>
+            <td>มอคค่า</td>
+            <td>30</td>
+            <td>
+              <button pButton type="button" label="สั่ง" icon="pi pi-shopping-cart" (click)="handleClick($event)"></button>
+            </td>
+          </tr>
+        </tbody>
+      </table> -->
+  
+      <br/>
+      <button pButton type="button" label="รีเฟรช" icon="pi pi-refresh" (click)="refreshClick()"></button>
+  
+      <!-- {{productList | json}} -->
+      <p-table #table [columns]="cols" [value]="productList" [paginator]="true" [rows]="5"
+        paginatorPosition="top"
+        dataKey="productPk"
+        [(selection)]="rowSelected"
+        [loading]="loading"
+        [lazy]="true" 
+        [totalRecords]="totalRecords"
+        (onLazyLoad)="loadLazyAction($event)" 
+        showCurrentPageReport="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngIf="true" style="text-align: center;">ลำดับ</th>
+            <th *ngFor="let col of columns" style="text-align: center;">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr>
+            <td *ngIf="true" style="text-align: center;">{{rowIndex+1}}</td>
+            <td *ngIf="true" style="text-align: center;">
+              <img src="{{rowData['imagePath']}}" width="100px" alt="ลาเต้" class="img-thumbnail">
+            </td>
+            <td *ngIf="true" style="text-align: left;">{{rowData['productName']}}</td>
+            <td *ngIf="true" style="text-align: right;">{{rowData['price']}}</td>
+            <td *ngIf="true" style="text-align: center;">
+              <button pButton type="button" icon="pi pi-shopping-cart" (click)="chooseClick(rowData)"></button>
+            </td>
+            <!-- <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+            </td> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary"  *ngIf="true">
+          พบทั้งหมด {{totalRecords ? totalRecords : '0'}} รายการ
+        </ng-template>
+      </p-table>
+
+      <br/>
+      <p-card>
+        จำนวนรายการที่สั่ง : {{menuSelected ? menuSelected.length : 0}} 
+        <br/><br/>
+        <button pButton type="button" class="ui-button-info" label="สรุปบิล" icon="pi pi-save"
+          (click)="checkBill($event)"></button>
+        &nbsp;
+        <button pButton type="button" class="ui-button-danger" label="ยกเลิกรายการ" icon="pi pi-times"
+          (click)="cancelBill($event)"></button>
+      </p-card>
+  
+  </form>
+</p-fieldset>
+<p-toast position="top-center" key="successMsg"></p-toast>
