@@ -28,7 +28,7 @@
     "express-myconnection": "^1.0.4",
     "font-awesome": "^4.7.0",
     "mysql": "^2.18.1",
-    "node-sass": "^4.14.0",
+    "node-sass": "^7.0.0",
     "path": "^0.12.7",
     "primeng": "^6.1.7",
     "primeicons": "^2.0.0",
